@@ -1,0 +1,11 @@
+.watch {
+  display: flex;
+  align-items: flex-end;
+  display: inline;
+}
+.watch div {
+  display: inline;
+}
+.milliseconds {
+  color: gray;
+}
