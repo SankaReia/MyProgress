@@ -3,7 +3,7 @@ import Btn from "../UI/Btn";
 import styles from "./DoneTasks.module.css";
 import DoneTaskItem from "./DoneTaskItem";
 import { useDispatch, useSelector } from "react-redux";
-import { setTasks, removeTask } from "../../store/slices/timeSlice";
+import { setTasks, removeTask, fetchTasks } from "../../store/slices/timeSlice";
 
 const DoneTasks = () => {
   // const { tasks, setTasks } = useContext(Context);
@@ -13,9 +13,9 @@ const DoneTasks = () => {
 
   useEffect(() => {
     if (!localStorage.getItem("doneTasks"))
-      localStorage.setItem("doneTasks", JSON.stringify([]));
+      localStorage.setItem("doneTasks", "[]");
     if (JSON.parse(localStorage.getItem("doneTasks")).length > 0) {
-      dispatch(removeTask(JSON.parse(localStorage.getItem("doneTasks"))));
+      dispatch(fetchTasks(JSON.parse(localStorage.getItem("doneTasks"))));
     }
   }, []);
 
@@ -34,14 +34,12 @@ const DoneTasks = () => {
       id: Date.now(),
     };
 
-    // setTasks([...tasks, newTask]);
     dispatch(setTasks(newTask));
     setTask({ title: "" });
   };
 
   const deleteTaskHandler = (id) => {
-    // setTasks(tasks.filter((t) => t.id !== id));
-    dispatch(removeTask(tasks.filter((t) => t.id !== id)));
+    dispatch(removeTask(id));
   };
 
   return (

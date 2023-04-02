@@ -1,6 +1,6 @@
 import Time from "./Stopwatch/Time";
 import { useDispatch, useSelector } from "react-redux";
-import { removeTask, setTime, setIsGoing } from "../store/slices/timeSlice";
+import { clearOnSubmit } from "../store/slices/timeSlice";
 import { setDoc, getDoc, doc, updateDoc, arrayUnion } from "firebase/firestore";
 import { dataBase } from "../config";
 import { Box, Typography, Modal, Button } from "@mui/material";
@@ -72,11 +72,11 @@ const ModalSubmit = ({ setIsModal, isModal }) => {
     } catch (error) {
       console.log(error);
     }
-    dispatch(removeTask([]));
-    dispatch(setTime({ time: { h: 0, m: 0, s: 0, ms: 0 } }));
-    dispatch(setIsGoing({ isGoing: 0 }));
+
+    dispatch(clearOnSubmit());
     setIsModal(false);
     localStorage.removeItem("lastTime");
+    localStorage.setItem("doneTasks", "[]");
   };
 
   return (
