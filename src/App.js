@@ -1,4 +1,5 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { useEffect } from "react";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import SignIn from "./Components/Login/SignIn";
 import SignUp from "./Components/Login/SignUp";
 import Progress from "./Components/Progress";
@@ -8,8 +9,13 @@ import Loader from "./Components/UI/Loader";
 import NavBar from "./Components/UI/NavBar";
 
 function App() {
-  const { isAuth } = useAuth();
   const { isLoading } = useAuthState();
+  const { isAuth } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    isAuth && navigate("/progress");
+  }, [isAuth]);
 
   if (isLoading) {
     return (

@@ -34,9 +34,9 @@ const Grid = ({ startDay, today }) => {
     return () => unsub();
   }, []);
 
-  if (!data) {
-    return <Loader />;
-  }
+  // if (!data) {
+  //   return <Loader />;
+  // }
 
   return (
     <div className={styles.gridWrapper}>

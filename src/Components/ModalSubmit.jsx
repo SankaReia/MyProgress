@@ -37,36 +37,37 @@ const ModalSubmit = ({ setIsModal, isModal }) => {
       //data хранит в себе весь объект из базыданных:
       const data = docSnap.data();
 
-      if (!data) {
+      if (!data)
         // При первом условии проверяется есть ли база данных, если нет то создается новый
         await setDoc(docRef, { [year]: { [month]: arrayUnion(dayData) } });
+      if (!data[year][month])
+        //Проверяется наличие текущего месяца
+        await updateDoc(docRef, { [`${year}.${month}`]: arrayUnion(dayData) });
+
+      // Следующий if Проверяет последний день в базе с текущим днем
+      if (
+        dayData.date === data[year][month][data[year][month].length - 1].date
+      ) {
+        // Если есть  совпадение то создается новый объект в котором к данным из базы по сегодняшнему дню добавляются новые
+        const dayUpd = {
+          date: new Date().toLocaleDateString(),
+          time: lastTime + data[year][month][data[year][month].length - 1].time,
+          tasks: tasks.concat(
+            data[year][month][data[year][month].length - 1].tasks
+          ),
+        };
+        // monthArr хранит в себе массив дней текущего месяца
+        const monthArr = data[year][month];
+        // Далее из него удаляется последний элемент и добавляется обновленный день dayUpd
+        monthArr.pop();
+        monthArr.push(dayUpd);
+        // Далее целиком перезаписывается массив месяца
+        await updateDoc(docRef, { [`${year}.${month}`]: monthArr });
       } else {
-        // Следующий if Проверяет последний день в базе с текущим днем
-        if (
-          dayData.date === data[year][month][data[year][month].length - 1].date
-        ) {
-          // Если есть  совпадение то создается новый объект в котором к данным из базы по сегодняшнему дню добавляются новые
-          const dayUpd = {
-            date: new Date().toLocaleDateString(),
-            time:
-              lastTime + data[year][month][data[year][month].length - 1].time,
-            tasks: tasks.concat(
-              data[year][month][data[year][month].length - 1].tasks
-            ),
-          };
-          // monthArr хранит в себе массив дней текущего месяца
-          const monthArr = data[year][month];
-          // Далее из него удаляется последний элемент и добавляется обновленный день dayUpd
-          monthArr.pop();
-          monthArr.push(dayUpd);
-          // Далее целиком перезаписывается массив месяца
-          await updateDoc(docRef, { [`${year}.${month}`]: monthArr });
-        } else {
-          // Если новый день, тогда он просто добавлется в массив месяца
-          await updateDoc(docRef, {
-            [`${year}.${month}`]: arrayUnion(dayData),
-          });
-        }
+        // Если новый день, тогда он просто добавлется в массив месяца
+        await updateDoc(docRef, {
+          [`${year}.${month}`]: arrayUnion(dayData),
+        });
       }
     } catch (error) {
       console.log(error);

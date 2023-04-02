@@ -7,16 +7,22 @@ import { setTasks, removeTask } from "../../store/slices/timeSlice";
 
 const DoneTasks = () => {
   // const { tasks, setTasks } = useContext(Context);
-  const tasks = useSelector((state) => state.time.tasks);
+  const { tasks } = useSelector((state) => state.time);
   const dispatch = useDispatch();
   const [task, setTask] = useState({ title: "" });
+
+  useEffect(() => {
+    if (JSON.parse(localStorage.getItem("doneTasks")).length > 0) {
+      dispatch(removeTask(JSON.parse(localStorage.getItem("doneTasks"))));
+    }
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("doneTasks", JSON.stringify(tasks));
   }, [tasks]);
 
   const addTaksHandler = () => {
-    if (task.title.trim().length == 0) {
+    if (task.title.trim().length === 0) {
       setTask({ title: "" });
       return;
     }
