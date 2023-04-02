@@ -12,6 +12,8 @@ const DoneTasks = () => {
   const [task, setTask] = useState({ title: "" });
 
   useEffect(() => {
+    if (!localStorage.getItem("doneTasks"))
+      localStorage.setItem("doneTasks", JSON.stringify([]));
     if (JSON.parse(localStorage.getItem("doneTasks")).length > 0) {
       dispatch(removeTask(JSON.parse(localStorage.getItem("doneTasks"))));
     }
