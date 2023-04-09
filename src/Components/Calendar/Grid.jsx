@@ -6,7 +6,6 @@ import React, { useEffect, useState } from "react";
 import { getDoc, doc, onSnapshot } from "firebase/firestore";
 import { dataBase } from "../../config";
 import { useSelector } from "react-redux";
-import Loader from "../UI/Loader";
 import DayModal from "./DayModal";
 
 const Grid = ({ startDay, today }) => {
@@ -33,10 +32,6 @@ const Grid = ({ startDay, today }) => {
     });
     return () => unsub();
   }, []);
-
-  // if (!data) {
-  //   return <Loader />;
-  // }
 
   return (
     <div className={styles.gridWrapper}>

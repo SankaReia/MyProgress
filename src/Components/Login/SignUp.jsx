@@ -3,7 +3,6 @@ import {
   Button,
   CssBaseline,
   TextField,
-  Link,
   Grid,
   Box,
   Typography,
@@ -13,7 +12,7 @@ import {
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../store/slices/userSlice";
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -43,7 +42,7 @@ export default function SignUp() {
         );
         if (user) {
           dispatch(setUser({ email: user.email, id: user.uid }));
-          navigate("/progress");
+          navigate("/");
         }
         setIsLoading(false);
       } catch (error) {
@@ -129,7 +128,7 @@ export default function SignUp() {
             )}
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/signIn" variant="body2">
+                <Link to="/signIn" style={{ color: "#1976d2" }}>
                   Already have an account? Sign in
                 </Link>
               </Grid>

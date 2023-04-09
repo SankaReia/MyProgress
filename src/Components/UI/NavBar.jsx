@@ -14,10 +14,10 @@ import { signOut } from "firebase/auth";
 import useAuth from "../../hooks/useAuth";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 
-export default function NavBar({ isAuth }) {
+export default function NavBar() {
+  const { isAuth, email } = useAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { email } = useAuth();
 
   const signOutHandler = () => {
     signOut(auth)
@@ -35,7 +35,12 @@ export default function NavBar({ isAuth }) {
         <AppBar position="static">
           <Container>
             <Toolbar>
-              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              <Typography
+                variant="h6"
+                component="div"
+                sx={{ flexGrow: 1, cursor: "pointer" }}
+                onClick={() => navigate("/")}
+              >
                 MyProgress
               </Typography>
               {isAuth ? (
@@ -43,7 +48,7 @@ export default function NavBar({ isAuth }) {
                   {email} <LogoutOutlinedIcon sx={{ ml: 2 }} />
                 </Button>
               ) : (
-                <Button color="inherit" onClick={() => navigate("signIn")}>
+                <Button color="inherit" onClick={() => navigate("/signIn")}>
                   LOGIN
                 </Button>
               )}

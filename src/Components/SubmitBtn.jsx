@@ -1,19 +1,23 @@
 import React, { useState } from "react";
 import ModalSubmit from "./ModalSubmit";
 import Btn from "./UI/Btn";
+import { Alert } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { setIsGoing } from "../store/slices/timeSlice";
+import useAuth from "../hooks/useAuth";
 
 const SubmitBtn = () => {
   const [isModal, setIsModal] = useState(false);
+  const [error, setError] = useState(false);
   const dispatch = useDispatch();
+  const { isAuth } = useAuth();
 
   return (
     <>
       <Btn
         style={{ margin: "50px 0" }}
         onClick={() => {
-          setIsModal(true);
+          isAuth ? setIsModal(true) : setError(true);
           dispatch(setIsGoing({ isGoing: 2 }));
         }}
       >
@@ -26,6 +30,7 @@ const SubmitBtn = () => {
           isModal={isModal}
         />
       )}
+      {error && <Alert severity="error">You need to LogIn!</Alert>}
     </>
   );
 };

@@ -10,12 +10,12 @@ import NavBar from "./Components/UI/NavBar";
 
 function App() {
   const { isLoading } = useAuthState();
-  const { isAuth } = useAuth();
+  // const { isAuth } = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    isAuth && navigate("/progress");
-  }, [isAuth]);
+  // useEffect(() => {
+  //   isAuth && navigate("/");
+  // }, [isAuth]);
 
   if (isLoading) {
     return (
@@ -25,25 +25,36 @@ function App() {
     );
   }
 
-  if (isAuth) {
-    return (
-      <Routes>
-        <Route path={"/"} element={<NavBar isAuth={true} />}>
-          <Route path="progress" element={<Progress />} />
-          <Route path="*" element={<Navigate to="progress" replace />} />
-        </Route>
-      </Routes>
-    );
-  }
   return (
-    <Routes>
-      <Route path={"/"} element={<NavBar isAuth={false} />}>
-        <Route path={"signIn"} element={<SignIn />} />
-        <Route path={"signUp"} element={<SignUp />} />
-        <Route path={"*"} element={<Navigate to="/" replace />} />
-      </Route>
-    </Routes>
+    <>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Progress />} />
+        <Route path={"/signIn"} element={<SignIn />} />
+        <Route path={"/signUp"} element={<SignUp />} />
+      </Routes>
+    </>
   );
+
+  //   if (isAuth) {
+  //     return (
+  //       <Routes>
+  //         <Route path={"/"} element={<NavBar isAuth={true} />}>
+  //           <Route path="progress" element={<Progress />} />
+  //           <Route path="*" element={<Navigate to="progress" replace />} />
+  //         </Route>
+  //       </Routes>
+  //     );
+  //   }
+  //   return (
+  //     <Routes>
+  //       <Route path={"/"} element={<NavBar isAuth={false} />}>
+  //         <Route path={"signIn"} element={<SignIn />} />
+  //         <Route path={"signUp"} element={<SignUp />} />
+  //         <Route path={"*"} element={<Navigate to="/" replace />} />
+  //       </Route>
+  //     </Routes>
+  //   );
 }
 
 export default App;
