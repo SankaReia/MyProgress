@@ -1,5 +1,4 @@
-#My Progress
-Application for recording work hours and completed tasks, using the Firebase database
+#My Progress - Application for recording work hours and completed tasks, using the Firebase database
 
 Demo - https://my-progress-buu8n2lfd-sankareia.vercel.app/
 
